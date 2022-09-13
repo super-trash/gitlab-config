@@ -2,48 +2,45 @@ version: '3.6'
 
 services:
   gitlab:
-    image: 'gitlab/gitlab-ee:latest'
+    image: 'gitlab/gitlab-ee:15.3.3-ce.0'
     restart: always
     container_name: gitlab
     user: root
-    hostname: 'gitlab.ppj-international.com'
+    hostname: 'gitlab.ginjs.tk'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.ppj-international.com'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2222
-        gitlab_rails['smtp_enable'] = true
-        gitlab_rails['smtp_address'] = 'mail.ppj-international.com'
-        
+        external_url 'https://gitlab.ginjs.tk'
+        # gitlab_rails['gitlab_shell_ssh_port'] = 22
+
+        # gitlab_rails['smtp_enable'] = true
+        # gitlab_rails['smtp_address'] = 'mail.ppj-international.com'
+
         # gitlab_rails['smtp_port'] = 587
-        # gitlab_rails['smtp_user_name'] = 'nmtruong@ppj-international.com'
-        # gitlab_rails['smtp_password'] = 'truongnm'
+        # gitlab_rails['smtp_user_name'] = 'gitlabppj@ppj-international.com'
+        # gitlab_rails['smtp_password'] = 'GitlabPPJ*123@'
         # gitlab_rails['smtp_domain'] = 'mail.ppj-international.com'
         # gitlab_rails['smtp_authentication'] = 'login'
         # gitlab_rails['smtp_enable_starttls_auto'] = true
         # gitlab_rails['smtp_openssl_verify_mode'] = 'none'
-        # gitlab_rails['gitlab_email_from'] = 'nmtruong@ppj-international.com'
-        # gitlab_rails['gitlab_email_reply_to'] = 'nmtruong@ppj-international.com'
-
-        gitlab_rails['smtp_port'] = 587
-        gitlab_rails['smtp_user_name'] = 'gitlabppj@ppj-international.com'
-        gitlab_rails['smtp_password'] = 'GitlabPPJ*123@'
-        gitlab_rails['smtp_domain'] = 'mail.ppj-international.com'
-        gitlab_rails['smtp_authentication'] = 'login'
-        gitlab_rails['smtp_enable_starttls_auto'] = true
-        gitlab_rails['smtp_openssl_verify_mode'] = 'none'
-        gitlab_rails['gitlab_email_display_name'] = 'gitlabppj'
-        gitlab_rails['gitlab_email_from'] = 'gitlabppj@ppj-international.com'
-        gitlab_rails['gitlab_email_reply_to'] = 'gitlabppj@ppj-international.com'
-        # gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+        # gitlab_rails['gitlab_email_display_name'] = 'gitlabppj'
         # gitlab_rails['gitlab_email_from'] = 'gitlabppj@ppj-international.com'
         # gitlab_rails['gitlab_email_reply_to'] = 'gitlabppj@ppj-international.com'
-        # gitlab_rails['smtp_ssl'] = false
-        # gitlab_rails['smtp_force_ssl'] = false
-        # Add any other gitlab.rb configuration here, each on its own line
-    ports:
-      - '80:80'
-      - '4443:443'
-      - '2222:22'
+
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "smtp.gmail.com"
+        gitlab_rails['smtp_port'] = 587
+        gitlab_rails['smtp_user_name'] = "dragontruong3@gmail.com"
+        gitlab_rails['smtp_password'] = "truongmn300598"
+        gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_tls'] = false
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+
+    # ports:
+    #   - '80:80'
+    #   - '4443:443'
+    #   - '2222:22'
     volumes:
       - '${GITLAB_HOME}/config:/etc/gitlab'
       - '${GITLAB_HOME}/logs:/var/log/gitlab'
