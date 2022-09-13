@@ -1,0 +1,63 @@
+version: '3.6'
+
+services:
+  gitlab-dind:
+    restart: always
+    image: 'docker:20.10.12-dind'
+    container_name: gitlab-dind
+    privileged: true
+    networks:
+      - gitlab-runner-net
+    command: 
+    - --storage-driver=overlay2
+
+  gitlab-runner:
+    restart: always
+    image: 'gitlab/gitlab-runner:latest'
+    container_name: gitlab-runner
+    dns:
+      - 172.16.39.100
+    depends_on:
+      - gitlab-dind
+    networks:
+      - gitlab-runner-net
+    volumes:
+      - /srv/gitlab-runner/config:/etc/gitlab-runner
+      # - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://gitlab-dind:2375
+
+  register-runner:
+    restart: 'no'
+    image: gitlab/gitlab-runner:latest
+    volumes:
+      - /srv/gitlab-runner/config:/etc/gitlab-runner
+    command:
+    - register
+    - --non-interactive
+    - --locked=false
+    - --name=Docker Runner
+    - --executor=docker
+    - --docker-image=docker:20.10.12-dind
+    - --docker-volumes=/var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - CI_SERVER_URL=http://gitlab.ppj-international.com/
+    - REGISTRATION_TOKEN=tvGNA8UHckCq-PJ61Kzc
+
+networks:
+  gitlab-runner-net:
+    driver: bridge
+
+
+# docker run -d \
+#   --name gitlab-dind \
+#   --privileged \
+#   --restart always \
+#   --network gitlab-runner-net \
+#   -v /var/lib/docker \
+#   docker:17.06.0-ce-dind \
+#     --storage-driver=overlay2
+# docker run -d --name gitlab-runner --restart always \
+#      -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+#      -v /var/run/docker.sock:/var/run/docker.sock \
+#      gitlab/gitlab-runner:latest

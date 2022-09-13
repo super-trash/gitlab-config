@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+  gitlab-runner:
+    restart: always
+    image: 'gitlab/gitlab-runner:latest'
+    dns:
+      - 172.16.39.100
+    container_name: gitlab-runner
+    volumes:
+      - '/srv/gitlab-runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+~                                                                                                                       ~                                                          

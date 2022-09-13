@@ -1,0 +1,7 @@
+sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
+root - 8tgoJWOlyS/J/0yVdW8CHfC0z2wsHUxl7Fu+rsZkDh4=
+docker exec -it gitlab bash
+gitlab-rails console
+Notify.test_email('nqdung2@ppj-international.com', 'Message Subject', 'Message Body').deliver_now
+Notify.test_email('tqhung@ppj-international.com', 'Message Subject', 'Message Body').deliver_now
+Notify.test_email('nmtruong@ppj-international.com', 'Message Subject', 'Message Body').deliver_now
